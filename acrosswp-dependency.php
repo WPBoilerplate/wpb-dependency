@@ -2,11 +2,34 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-abstract class Pin_Comment_Plugins_Dependency {
+abstract class AcrossWP_Plugins_Dependency {
 
-    function __construct() {
+    /**
+	 * The ID of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $plugin_name    The ID of this plugin.
+	 */
+	private $plugin_name;
 
-        add_filter( 'pin-comment-load', array( $this, 'boilerplate_load' ) );
+
+    /**
+	 * The plugin file directory.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $plugin_name    The ID of this plugin.
+	 */
+	private $plugin_files;
+
+    function __construct( $plugin_name, $plugin_files ) {
+
+        $this->plugin_name = $plugin_name;
+
+        $this->plugin_files = $plugin_files;
+
+        add_filter( $this->plugin_name . '-load', array( $this, 'boilerplate_load' ) );
 
     }
 
@@ -15,7 +38,7 @@ abstract class Pin_Comment_Plugins_Dependency {
      */
     public function get_plugin_name() {
 
-        $plugin_data = get_plugin_data( PIN_COMMENT_FILES );
+        $plugin_data = get_plugin_data( $this->plugin_files );
 		return $plugin_data['Name'];
     }
 
