@@ -24,7 +24,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
          */
         private $plugin_files;
     
-        function __construct( $plugin_name, $plugin_files ) {
+        function __construct() {
     
             $this->plugin_name = AcrossWP_Plugins_Info::instance()->get_plugin_file_name();
     
