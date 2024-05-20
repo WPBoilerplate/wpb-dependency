@@ -14,6 +14,9 @@
     "support": {
         "issues": "https://github.com/acrosswp/acrosswp-dependency/issues"
     },
+    "require": {
+        "acrosswp/acrosswp-plugins-info": "dev-main"
+    },
     "authors": [
         {
             "name": "acrosswp",

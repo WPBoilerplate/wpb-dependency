@@ -26,9 +26,9 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
     
         function __construct( $plugin_name, $plugin_files ) {
     
-            $this->plugin_name = $plugin_name;
+            $this->plugin_name = AcrossWP_Plugins_Info::instance()->get_plugin_file_name();
     
-            $this->plugin_files = $plugin_files;
+            $this->plugin_files = AcrossWP_Plugins_Info::instance()->get_full_plugin_path();
     
             add_filter( $this->plugin_name . '-load', array( $this, 'boilerplate_load' ) );
     
