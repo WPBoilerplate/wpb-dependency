@@ -9,14 +9,13 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
     abstract class WPBoilerplate_Plugins_Dependency {
 
         /**
-         * The ID of this plugin.
+         * The slug of this plugin name.
          *
          * @since    1.0.0
          * @access   private
          * @var      string    $plugin_name    The ID of this plugin.
          */
         public $plugin_name;
-    
     
         /**
          * The plugin file directory.
@@ -28,7 +27,6 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
         public $plugin_files;
     
         function __construct() {
-    
             add_filter( $this->plugin_name . '-load', array( $this, 'boilerplate_load' ) );
         }
     
@@ -44,7 +42,7 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function boilerplate_load( $load ){
+        public function boilerplate_load( $load ) {
     
             if ( empty( $this->constant_define() ) ) {
                 $load = false;
@@ -56,73 +54,15 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
     
                 $this->constant_mini_version_hook();
     
-            } elseif (
-                ! empty( $this->component_required() )
-                && $this->constant_define()
-                && ! empty( $this->constant_mini_version() )
-                && empty( $this->required_component_is_active() )
-            ) {
-                $load = false;
-    
-                $this->component_required_hook();
             }
     
             return $load;
         }
     
         /**
-         * Check if the Required Component is Active
-         */
-        public function required_component_is_active() {
-            $is_active = false;
-            $component_required = $this->component_required();
-
-            // Active components.
-            $active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
-
-            foreach ( $component_required as $component_require ) {
-                if ( isset( $active_components[ $component_require ] ) ) {
-                    $is_active = true;
-                } else {
-                    $is_active = false;
-                    break;
-                }
-            }
-
-            return $is_active;
-
-        }
-    
-        /**
-         * Load this function on plugin load hook
-         * Example:
-         array(
-            'members',
-            'xprofile',
-            'settings',
-            'notifications',
-            'groups',
-            'forums',
-            'activity',
-            'media',
-            'document',
-            'video',
-            'messages',
-            'friends',
-            'invites',
-            'moderation',
-            'search',
-            'blogs',
-         );
-         */
-        public function component_required() {
-            return array();
-        }
-    
-        /**
          * Load this function on plugin load hook
          */
-        public function constant_define(){
+        public function constant_define() {
             $string = (string) $this->constant_name();
             if ( defined( $string ) ) {
                 return true;
@@ -134,7 +74,7 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        function constant_version( $constant_name = false ){
+        function constant_version( $constant_name = false ) {
 
             if ( empty( $constant_name ) ) {
                 $constant_name = $this->constant_name();
@@ -174,13 +114,6 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function component_required_hook() {
-            $this->error_message_hooks( 'component_required_message' );
-        }
-    
-        /**
-         * Load this function on plugin load hook
-         */
         public function constant_not_define_hook() {
             $this->error_message_hooks( 'constant_not_define_message' );
         }
@@ -211,22 +144,9 @@ if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function component_required_message(){
-            $this->error_message( 'component_required_text' );
-        }
-    
-        /**
-         * Load this function on plugin load hook
-         */
-        public function constant_mini_version_message(){
+        public function constant_mini_version_message() {
             $this->error_message( 'constant_mini_version_text' );
         }
-    
-        /**
-         * Load this function on plugin load hook
-         * Example: _e('<strong>BuddyBoss Sorting Option In Network Search</strong></a> requires the BuddyBoss Platform plugin to work. Please <a href="https://buddyboss.com/platform/" target="_blank">install BuddyBoss Platform</a> first.', 'buddyboss-sorting-option-in-network-search');
-         */
-        abstract function component_required_text();
     
         /**
          * Load this function on plugin load hook
