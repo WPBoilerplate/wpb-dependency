@@ -1,26 +1,22 @@
 {
-    "name": "acrosswp/acrosswp-dependency",
+    "name": "wpboilerplate/wpb-dependency",
     "type": "library",
     "license": "GPL-2.0-or-later",
     "description": "Composer to autoload the AcrossWP Dependency Class",
-    "homepage": "https://acrosswp.com/",
+    "homepage": "https://github.com/WPBoilerplate/wpb-dependency/",
     "keywords": [
         "wordpress",
         "plugin"
     ],
     "autoload": {
-        "files": ["acrosswp-dependency.php"]
+        "files": ["index.php"]
     },
     "support": {
-        "issues": "https://github.com/acrosswp/acrosswp-dependency/issues"
-    },
-    "require": {
-        "acrosswp/acrosswp-plugins-info": "dev-main"
+        "issues": "https://github.com/WPBoilerplate/wpb-dependency/issues"
     },
     "authors": [
         {
-            "name": "acrosswp",
-            "email": "contant@acrosswp.com"
+            "name": "WPBoilerplate"
         }
     ]
 }

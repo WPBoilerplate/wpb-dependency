@@ -2,8 +2,11 @@
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
-    abstract class AcrossWP_Plugins_Dependency {
+/**
+ * Check if the class does not exits then only allow the file to add
+ */
+if ( ! class_exists( 'WPBoilerplate_Plugins_Dependency' ) ) {
+    abstract class WPBoilerplate_Plugins_Dependency {
 
         /**
          * The ID of this plugin.
@@ -12,7 +15,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
          * @access   private
          * @var      string    $plugin_name    The ID of this plugin.
          */
-        private $plugin_name;
+        public $plugin_name;
     
     
         /**
@@ -22,16 +25,11 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
          * @access   private
          * @var      string    $plugin_name    The ID of this plugin.
          */
-        private $plugin_files;
+        public $plugin_files;
     
         function __construct() {
     
-            $this->plugin_name = AcrossWP_Plugins_Info::instance()->get_plugin_file_name();
-    
-            $this->plugin_files = AcrossWP_Plugins_Info::instance()->get_full_plugin_path();
-    
             add_filter( $this->plugin_name . '-load', array( $this, 'boilerplate_load' ) );
-    
         }
     
         /**
@@ -48,7 +46,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
          */
         public function boilerplate_load( $load ){
     
-            if( empty( $this->constant_define() ) ) {
+            if ( empty( $this->constant_define() ) ) {
                 $load = false;
     
                 $this->constant_not_define_hook();
@@ -58,11 +56,11 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
     
                 $this->constant_mini_version_hook();
     
-            } elseif ( 
-                ! empty( $this->component_required() ) 
-                && $this->constant_define() 
-                && ! empty( $this->constant_mini_version() ) 
-                && empty( $this->required_component_is_active() ) 
+            } elseif (
+                ! empty( $this->component_required() )
+                && $this->constant_define()
+                && ! empty( $this->constant_mini_version() )
+                && empty( $this->required_component_is_active() )
             ) {
                 $load = false;
     
@@ -82,8 +80,8 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
             // Active components.
             $active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
-            foreach( $component_required as $component_require ) {
-                if( isset( $active_components[ $component_require ] ) ) {
+            foreach ( $component_required as $component_require ) {
+                if ( isset( $active_components[ $component_require ] ) ) {
                     $is_active = true;
                 } else {
                     $is_active = false;
@@ -153,7 +151,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function constant_mini_version(){
+        public function constant_mini_version() {
     
             if ( version_compare( $this->constant_version(), $this->mini_version() , '>=' ) ) {
                 return true;
@@ -164,7 +162,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function error_message_hooks( $call ){
+        public function error_message_hooks( $call ) {
             if ( defined( 'WP_CLI' ) ) {
                 WP_CLI::warning( $this->$call() );
             } else {
@@ -176,28 +174,28 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function component_required_hook(){
+        public function component_required_hook() {
             $this->error_message_hooks( 'component_required_message' );
         }
     
         /**
          * Load this function on plugin load hook
          */
-        public function constant_not_define_hook(){
+        public function constant_not_define_hook() {
             $this->error_message_hooks( 'constant_not_define_message' );
         }
     
         /**
          * Load this function on plugin load hook
          */
-        public function constant_mini_version_hook(){
+        public function constant_mini_version_hook() {
             $this->error_message_hooks( 'constant_mini_version_message' );
         }
     
         /**
          * Load this function on plugin load hook
          */
-        public function error_message( $call ){
+        public function error_message( $call ) {
             echo '<div class="error fade"><p>';
                 $this->$call();
             echo '</p></div>';
@@ -206,7 +204,7 @@ if( ! class_exists( 'AcrossWP_Plugins_Dependency' ) ) {
         /**
          * Load this function on plugin load hook
          */
-        public function constant_not_define_message(){
+        public function constant_not_define_message() {
             $this->error_message( 'constant_not_define_text' );
         }
     
